@@ -1,0 +1,715 @@
+learning rate : 1e-05
+Warmup Started...
+...Warmup Ended
+Training Started...
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+episode :100, success rate: 0.0
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+episode :200, success rate: 0.0
+...Training Ended
+learning rate : 2e-05
+Warmup Started...
+...Warmup Ended
+Training Started...
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+episode :100, success rate: 0.0
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
+max round reached
+success :False
