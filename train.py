@@ -70,7 +70,7 @@ def train_run():
     episode = 0
     period_reward_total = 0
     period_success_total = 0
-    success_rate_best = 0.7
+    success_rate_best = 0.0
     while episode < NUM_EP_TRAIN:
         episode_reset()
         episode += 1

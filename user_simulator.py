@@ -172,13 +172,18 @@ class UserSimulator:
             assert key not in self.state['rest_slots']
         # All slots in both rest and hist should contain the slots for goal
         for inf_key in self.goal['inform_slots']:
-            assert self.state['history_slots'].get(inf_key, False) or self.state['rest_slots'].get(inf_key, False)
+            # assert self.state['history_slots'].get(inf_key, False) or self.state['rest_slots'].get(inf_key, False)
+            assert inf_key in self.state['history_slots'] or inf_key in self.state['rest_slots'], inf_key
+
+        
         for req_key in self.goal['request_slots']:
-            assert self.state['history_slots'].get(req_key, False) or self.state['rest_slots'].get(req_key,
-                                                                                                   False), req_key
+            # assert self.state['history_slots'].get(req_key, False) or self.state['rest_slots'].get(req_key,
+            #                                                                                        False), req_key
+            assert req_key in self.state['history_slots'] or req_key in self.state['rest_slots'], req_key
         # Anything in the rest should be in the goal
         for key in self.state['rest_slots']:
-            assert self.goal['inform_slots'].get(key, False) or self.goal['request_slots'].get(key, False)
+            # assert self.goal['inform_slots'].get(key, False) or self.goal['request_slots'].get(key, False)
+            assert key in self.goal['inform_slots'] or key in self.goal['request_slots'], key
         assert self.state['intent'] != ''
         # -----------------------
 
@@ -265,7 +270,9 @@ class UserSimulator:
         assert agent_inform_key != self.default_key
         if agent_inform_key in self.state['history_slots'].keys():
             success = UNSUITABLE
-
+        if isinstance(agent_inform_value, list) and len(agent_inform_value) == 0:
+            print("empty list return from agent")
+            success = UNSUITABLE
          # Zero case: If value that agent inform is no match available then random remove 1 slot from inform list
         if agent_inform_value == 'no match available':
             
@@ -286,6 +293,7 @@ class UserSimulator:
 
         # Add all informs (by agent too) to hist slots
         self.state['history_slots'][agent_inform_key] = agent_inform_value
+        
         # if agent_inform_key in self.state['rest_slots'] and self.state['rest_slots'][agent_inform_key] == 'UNK':
         #   print(">>>>> CONGRATULATIONS: bot can inform user request by itself!")
         # Remove from rest slots if in it

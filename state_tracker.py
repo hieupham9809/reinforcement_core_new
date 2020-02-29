@@ -35,7 +35,7 @@ class StateTracker:
     def get_state_size(self):
         """Returns the state size of the state representation used by the agent."""
 
-        return 2 * self.num_intents + 7 * self.num_slots + 3 + self.max_round_num
+        return 2 * self.num_intents + 7 * self.num_slots + 3 + 13 + self.max_round_num
 
     def reset(self):
         """Resets current_informs, history and round_num."""
@@ -133,10 +133,23 @@ class StateTracker:
                 kb_binary_rep[self.slots_dict[key]] = np.sum(db_results_dict[key] > 0.)
         # print(kb_binary_rep)
 
+        # represent current slot has value in db result
+        db_binary_slot_rep = np.zeros((self.num_slots + 1,))
+        db_results = self.db_helper.get_db_results(self.current_informs)
+        if db_results:
+            # Arbitrarily pick the first value of the dict
+            key, data = list(db_results.items())[0]
+            # print("size state: {} ".format(self.num_slots + 1))
+            # print("first value:   {}".format(data))
+            for slot, value in data.items():
+                if slot in self.slots_dict and isinstance(value, list) and len(value) > 0:
+                    db_binary_slot_rep[self.slots_dict[slot]] = 1.0
+
+
         state_representation = np.hstack(
             [user_act_rep, user_inform_slots_rep, user_request_slots_rep, agent_act_rep, agent_inform_slots_rep,
              agent_request_slots_rep, current_slots_rep, turn_rep, turn_onehot_rep, kb_binary_rep,
-             kb_count_rep]).flatten()
+             kb_count_rep,db_binary_slot_rep]).flatten()
         # print("---------------------------------------state")
         # print(state_representation)
         # time.sleep(0.5)
