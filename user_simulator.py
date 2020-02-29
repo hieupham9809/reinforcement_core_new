@@ -27,7 +27,7 @@ class UserSimulator:
         # TEMP ----
         self.database = database
         # ---------
-
+        self.empty_count = 0
     def reset(self):
         """
         Resets the user sim. by emptying the state and returning the initial action.
@@ -53,9 +53,12 @@ class UserSimulator:
         self.state['intent'] = ''
         # False for failure, true for success, init. to failure
         self.constraint_check = FAIL
-
+        
         return self._return_init_action()
-
+    def reset_empty_count(self):
+        total = self.empty_count
+        self.empty_count = 0
+        return total
     def _return_init_action(self):
         """
         Returns the initial action of the episode.
@@ -271,7 +274,7 @@ class UserSimulator:
         if agent_inform_key in self.state['history_slots'].keys():
             success = UNSUITABLE
         if isinstance(agent_inform_value, list) and len(agent_inform_value) == 0:
-            print("empty list return from agent")
+            self.empty_count += 1
             success = UNSUITABLE
          # Zero case: If value that agent inform is no match available then random remove 1 slot from inform list
         if agent_inform_value == 'no match available':

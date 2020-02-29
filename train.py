@@ -76,7 +76,7 @@ def train_run():
         episode += 1
         done = False
         state = state_tracker.get_state()
-        # print(state)
+        # print(state[119:])
         while not done:
             next_state, reward, done, success = run_round(state)
             # print("reward: {}".format(reward))
@@ -89,10 +89,10 @@ def train_run():
         # Train
         if episode % TRAIN_FREQ == 0:
             # Check success rate
-            
+            empty = user.reset_empty_count()
             success_rate = period_success_total / TRAIN_FREQ
             avg_reward = period_reward_total / TRAIN_FREQ
-            print("episode :{0}, success rate: {1} Avg Reward: {2}".format(episode,success_rate,avg_reward))
+            print("episode :{0}, success rate: {1} Avg Reward: {2} Empty count: {3}".format(episode,success_rate,avg_reward, empty))
             # Flush
             if success_rate >= success_rate_best and success_rate >= SUCCESS_RATE_THRESHOLD:
                 dqn_agent.empty_memory()
