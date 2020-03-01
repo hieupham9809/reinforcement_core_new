@@ -48,7 +48,7 @@ for slot in agent_inform_slots:
     agent_actions.append({'intent': 'inform', 'inform_slots': {slot: 'PLACEHOLDER'}, 'request_slots': {}})
 for slot in agent_request_slots:
     agent_actions.append({'intent': 'request', 'inform_slots': {}, 'request_slots': {slot: 'UNK'}})
-
+print("agent action total: {}".format(len(agent_actions)))
 # Rule-based policy request list
 # rule_requests = ['moviename', 'starttime', 'city', 'date', 'theater', 'numberofpeople']
 # rule_requests = ['name_activity', 'contact', 'works', 'joiner', 'register']
@@ -69,6 +69,7 @@ FAIL = -1
 NO_OUTCOME = 0
 SUCCESS = 1
 UNSUITABLE = -2
+NO_VALUE = -3
 
 # All possible intents (for one-hot conversion in ST.get_state())
 all_intents = ['inform', 'request', 'done', 'match_found', 'thanks', 'reject']

@@ -13,10 +13,10 @@ def run_round(state, warmup=False):
     agent_action_index, agent_action = dqn_agent.get_action(state, use_rule=warmup)
     # 2) Update state tracker with the agent's action
     state_tracker.update_state_agent(agent_action)
-    # print("agent: {}".format(agent_action))
+    print("agent: {}".format(agent_action))
     # 3) User takes action given agent action
     user_action, reward, done, success = user.step(agent_action)
-    # print("user: {}".format(user_action))
+    print("user: {}".format(user_action))
     if not done:
         # 4) Infuse error into semantic frame level of user action
         emc.infuse_error(user_action)
@@ -70,7 +70,7 @@ def train_run():
     episode = 0
     period_reward_total = 0
     period_success_total = 0
-    success_rate_best = 0.0
+    success_rate_best = 0.3
     while episode < NUM_EP_TRAIN:
         episode_reset()
         episode += 1
@@ -79,10 +79,10 @@ def train_run():
         # print(state[119:])
         while not done:
             next_state, reward, done, success = run_round(state)
-            # print("reward: {}".format(reward))
+            print("reward: {}".format(reward))
             period_reward_total += reward
             state = next_state
-        # print("episode {0} success :{0}".format(success))
+        print("episode {0} success :{1}".format(episode, success))
 
         period_success_total += success
 
@@ -152,7 +152,7 @@ if __name__ == "__main__":
     with open(constants_file) as f:
         constants = json.load(f)
 
-    constants['agent']['learning_rate']=[ i*pow(10,-4) for i in range(6,7,1)]
+    constants['agent']['learning_rate']=[ i*pow(10,-4) for i in range(3,4,1)]
     # Load file path constants
     file_path_dict = constants['db_file_paths']
     DATABASE_FILE_PATH = file_path_dict['database']

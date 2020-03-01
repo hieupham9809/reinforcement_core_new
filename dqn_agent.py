@@ -64,7 +64,7 @@ class DQNAgent:
 
         model = Sequential()
         model.add(Dense(self.hidden_size, input_dim=self.state_size, activation='relu'))
-        # model.add(Dense(self.hidden_size, input_dim=self.state_size, activation='relu'))
+        model.add(Dense(49, input_dim=self.hidden_size, activation='relu'))
         # model.add(Dense(self.hidden_size, input_dim=self.state_size, activation='relu'))
         # model.add(Dense(self.hidden_size, input_dim=self.state_size, activation='relu'))
         # model.add(Dense(self.hidden_size, input_dim=self.state_size, activation='relu'))

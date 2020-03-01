@@ -1,4 +1,4 @@
-from dialogue_config import usersim_default_key, FAIL,UNSUITABLE, NO_OUTCOME, SUCCESS, usersim_required_init_inform_keys, \
+from dialogue_config import usersim_default_key, FAIL,UNSUITABLE, NO_OUTCOME, SUCCESS, NO_VALUE, usersim_required_init_inform_keys, \
     no_query_keys
 from utils import reward_function
 import random, copy
@@ -24,6 +24,7 @@ class UserSimulator:
         self.init_informs = usersim_required_init_inform_keys
         self.no_query = no_query_keys
         self.agent_additional_informs = []
+        self.success = NO_OUTCOME
         # TEMP ----
         self.database = database
         # ---------
@@ -53,7 +54,7 @@ class UserSimulator:
         self.state['intent'] = ''
         # False for failure, true for success, init. to failure
         self.constraint_check = FAIL
-        
+        self.success = NO_OUTCOME
         return self._return_init_action()
     def reset_empty_count(self):
         total = self.empty_count
@@ -99,7 +100,7 @@ class UserSimulator:
         user_response['intent'] = self.state['intent']
         user_response['request_slots'] = copy.deepcopy(self.state['request_slots'])
         user_response['inform_slots'] = copy.deepcopy(self.state['inform_slots'])
-        # print("user: {}".format(user_response))
+        print("user: {}".format(user_response))
         return user_response
 
     def step(self, agent_action):
@@ -118,7 +119,7 @@ class UserSimulator:
             bool: Done flag
             int: Success: -1, 0 or 1 for loss, neither win nor loss, win
         """
-
+        
         # Assertions -----
         # No UNK in agent action informs
         for value in agent_action['inform_slots'].values():
@@ -133,27 +134,27 @@ class UserSimulator:
         # self.state['intent'] = ''
 
         done = False
-        success = NO_OUTCOME
+        self.success = NO_OUTCOME
         # if user intent is thanks and agent not reply with done intent, then punish it
         if self.state['intent'] == 'thanks' and agent_action['intent'] != 'done':
-            success = UNSUITABLE
+            self.success = UNSUITABLE
         # First check round num, if equal to max then fail
         if agent_action['round'] == self.max_round:
             # print("max round reached")
             done = True
-            success = FAIL
+            self.success = FAIL
             self.state['intent'] = 'done'
             self.state['request_slots'].clear()
         else:
             agent_intent = agent_action['intent']
             if agent_intent == 'request':
-                success = self._response_to_request(agent_action)
+                self._response_to_request(agent_action)
             elif agent_intent == 'inform':
-                success = self._response_to_inform(agent_action)
+                self._response_to_inform(agent_action)
             elif agent_intent == 'match_found':
-                success = self._response_to_match_found(agent_action)
+                self._response_to_match_found(agent_action)
             elif agent_intent == 'done':
-                success = self._response_to_done()
+                self._response_to_done()
                 self.state['intent'] = 'done'
                 self.state['request_slots'].clear()
                 done = True
@@ -195,9 +196,9 @@ class UserSimulator:
         user_response['request_slots'] = copy.deepcopy(self.state['request_slots'])
         user_response['inform_slots'] = copy.deepcopy(self.state['inform_slots'])
 
-        reward = reward_function(success, self.max_round)
+        reward = reward_function(self.success, self.max_round)
 
-        return user_response, reward, done, True if success is 1 else False
+        return user_response, reward, done, True if self.success is 1 else False
 
     def _response_to_request(self, agent_action):
         """
@@ -209,10 +210,10 @@ class UserSimulator:
             agent_action (dict): Intent of request with standard action format (including 'speaker': 'Agent' and
                                  'round_num': int)
         """
-        success = NO_OUTCOME
+        # success = NO_OUTCOME
         agent_request_key = list(agent_action['request_slots'].keys())[0]
         if agent_request_key in self.state['request_slots'] or agent_request_key in self.state['history_slots']:
-            success = UNSUITABLE
+            self.success = UNSUITABLE
         
         # First Case: if agent requests for something that is in the user sims goal inform slots, then inform it
         if agent_request_key in self.goal['inform_slots']:
@@ -225,7 +226,7 @@ class UserSimulator:
         # Second Case: if the agent requests for something in user sims goal request slots and it has already been
         # informed, then inform it
         elif agent_request_key in self.goal['request_slots'] and agent_request_key in self.state['history_slots']:
-            success = UNSUITABLE
+            self.success = UNSUITABLE
             self.state['intent'] = 'inform'
             self.state['inform_slots'][agent_request_key] = self.state['history_slots'][agent_request_key]
             self.state['request_slots'].clear()
@@ -253,7 +254,7 @@ class UserSimulator:
             self.state['inform_slots'][agent_request_key] = ['anything']
             self.state['request_slots'].clear()
             self.state['history_slots'][agent_request_key] = ['anything']
-        return success
+        # return success
 
     def _response_to_inform(self, agent_action):
         """
@@ -266,16 +267,18 @@ class UserSimulator:
             agent_action (dict): Intent of inform with standard action format (including 'speaker': 'Agent' and
                                  'round_num': int)
         """
-        success = NO_OUTCOME
+        # success = NO_OUTCOME
         agent_inform_key = list(agent_action['inform_slots'].keys())[0]
         agent_inform_value = agent_action['inform_slots'][agent_inform_key]
 
         assert agent_inform_key != self.default_key
         if agent_inform_key in self.state['history_slots'].keys():
-            success = UNSUITABLE
-        if isinstance(agent_inform_value, list) and len(agent_inform_value) == 0:
+            self.success = UNSUITABLE
+        if (isinstance(agent_inform_value, list) and len(agent_inform_value) == 0) or agent_inform_key in self.state['request_slots'].keys():
             self.empty_count += 1
-            success = UNSUITABLE
+            self.success = NO_VALUE
+        if agent_inform_key in self.state['request_slots'].keys():
+            print("agent inform request slot")
          # Zero case: If value that agent inform is no match available then random remove 1 slot from inform list
         if agent_inform_value == 'no match available':
             
@@ -292,7 +295,7 @@ class UserSimulator:
                 # print(self.goal['inform_slots'])
                 # print(self.state['history_slots'])
                 # print(self.state['rest_slots'])
-                return success
+                # return success
 
         # Add all informs (by agent too) to hist slots
         self.state['history_slots'][agent_inform_key] = agent_inform_value
@@ -340,7 +343,8 @@ class UserSimulator:
             # - Otherwise respond with 'nothing to say' intent
             else:
                 self.state['intent'] = 'thanks'
-        return success
+                
+        # return success
     def _response_to_match_found(self, agent_action):
         """
         Augments the state in response to the agent action having an intent of match_found.
@@ -351,10 +355,10 @@ class UserSimulator:
             agent_action (dict): Intent of match_found with standard action format (including 'speaker': 'Agent' and
                                  'round_num': int)
         """
-        success = NO_OUTCOME
+        # success = NO_OUTCOME
         
         if self.state['intent'] == 'reject':
-            success = UNSUITABLE
+            self.success = UNSUITABLE
         agent_informs = agent_action['inform_slots']
 
         self.state['intent'] = 'thanks'
@@ -363,7 +367,6 @@ class UserSimulator:
         assert self.default_key in agent_informs
         self.state['rest_slots'].pop(self.default_key, None)
 
-        # print(str(agent_informs[self.default_key]))
         self.state['history_slots'][self.default_key] = str(agent_informs[self.default_key])
         self.state['request_slots'].pop(self.default_key, None)
 
@@ -396,11 +399,24 @@ class UserSimulator:
 
         if self.constraint_check == FAIL:
             self.state['intent'] = 'reject'
+
+            ### IMPORTANT: should we clear it?
             self.state['request_slots'].clear()
             # print("reject: goal inform slots: {}".format(self.goal['inform_slots']))
         # print("constraint check: {}".format(self.constraint_check))
         
-        return success
+        
+        ##### IMPORTANT: if everythings is ok, then remove request slot to help the agent success
+        
+        if self.state['intent'] == 'thanks':
+            for key in self.state['request_slots'].keys():
+                self.state['rest_slots'].pop(key)
+                self.goal['request_slots'].pop(key)
+                
+                print("success, remove slot {} from rest and request".format(key))
+            self.state['request_slots'].clear()
+            
+        # return success
     def _response_to_done(self):
         """
         Augments the state in response to the agent action having an intent of done.
@@ -413,13 +429,15 @@ class UserSimulator:
         """
         
         if self.constraint_check == FAIL:
-            return FAIL
+            self.success = FAIL
+            return
 
         if not self.state['rest_slots']:
             assert not self.state['request_slots']
         if self.state['rest_slots']:
-            # print("rest_slots: {}".format(self.state['rest_slots']))
-            return FAIL
+            print("rest_slots: {}".format(self.state['rest_slots']))
+            self.success = FAIL
+            return
         # print("constraint_check: {0}".format(self.constraint_check))
         # TEMP: ----
         assert self.state['history_slots'][self.default_key] != 'no match available'
@@ -435,4 +453,4 @@ class UserSimulator:
                 break
         # ----------
 
-        return SUCCESS
+        self.success = SUCCESS
