@@ -48,10 +48,21 @@ class DBQuery:
         current_informs.pop(key, None)
         # db_results is a dict of dict in the same exact format as the db, it is just a subset of the db
         db_results = self.get_db_results(current_informs)
-
+        db_results_no_empty = {}
+        
+        if key != usersim_default_key:
+            for i, data in db_results.items():
+                if isinstance(data[key], list) and len(data[key]) > 0:
+                    db_results_no_empty[i] = copy.deepcopy(data)
+      
         filled_inform = {}
-        values_dict = self._count_slot_values(key, db_results)
-        if values_dict:
+        if db_results_no_empty:
+            values_dict = self._count_slot_values(key, db_results_no_empty)
+        else:
+            values_dict = self._count_slot_values(key, db_results)
+        if key == usersim_default_key:
+            filled_inform[key] = list(db_results)[0]
+        elif values_dict:
             # Get key with max value (ie slot value with highest count of available results)
             filled_inform[key] = list(max(values_dict, key=values_dict.get))
         else:

@@ -92,6 +92,7 @@ class StateTracker:
 
         # Create bag of filled_in slots based on the current_slots
         current_slots_rep = np.zeros((self.num_slots,))
+        print("current inform: {}".format(self.current_informs))
         for key in self.current_informs:
             current_slots_rep[self.slots_dict[key]] = 1.0
 
@@ -145,8 +146,8 @@ class StateTracker:
             # print("first value:   {}".format(data))
             for slot, value in data.items():
                 if slot in self.slots_dict and isinstance(value, list) and len(value) > 0:
-                    if slot not in self.current_request_slots:
-                        db_binary_slot_rep[self.slots_dict[slot]] = 1.0
+                    # if slot not in self.current_request_slots:
+                    db_binary_slot_rep[self.slots_dict[slot]] = 1.0
                    
 
 
@@ -176,6 +177,7 @@ class StateTracker:
         if agent_action['intent'] == 'inform':
             assert agent_action['inform_slots']
             # print("intent: inform, current inform_slots: {}".format(self.current_informs))
+            print("current request slot: {}".format(self.current_request_slots))
 
             inform_slots = self.db_helper.fill_inform_slot(agent_action['inform_slots'], self.current_informs)
             agent_action['inform_slots'] = inform_slots
@@ -195,8 +197,26 @@ class StateTracker:
             db_results = self.db_helper.get_db_results(self.current_informs)
             if db_results:
                 # Arbitrarily pick the first value of the dict
-                key, value = list(db_results.items())[0]
-                agent_action['inform_slots'] = copy.deepcopy(value)
+
+
+                # list_results = list(db_results.items())
+                # index = 0
+                # key, data = list_results[index]
+                # while index < len(list_results) and isinstance(data[index][self.current_request_slots[0]],list) and len(data[index][self.current_request_slots[0]]) == 0:
+                #     key, data = list(db_results.items())[index]
+                #     index += 1
+                db_results_no_empty = {}
+                print("current request slot: {}".format(self.current_request_slots))
+                if self.current_request_slots[0] != usersim_default_key:
+                    for key, data in db_results.items():
+                        if isinstance(data[self.current_request_slots[0]], list) and len(data[self.current_request_slots[0]]) > 0:
+                            db_results_no_empty[key] = copy.deepcopy(data)
+                if db_results_no_empty:
+                    key, data = list(db_results_no_empty.items())[0]
+                else:
+                    key, data = list(db_results.items())[0]
+                # key, data = list(db_results.items())[0]
+                agent_action['inform_slots'] = copy.deepcopy(data)
                 agent_action['inform_slots'][self.match_key] = str(key)
             else:
                 agent_action['inform_slots'][self.match_key] = 'no match available'
@@ -220,7 +240,8 @@ class StateTracker:
         for key, value in user_action['inform_slots'].items():
             self.current_informs[key] = value
         for key, value in user_action['request_slots'].items():
-            self.current_request_slots.append(key)
+            if key not in self.current_request_slots:
+                self.current_request_slots.append(key)
         user_action.update({'round': self.round_num, 'speaker': 'User'})
         self.history.append(user_action)
         self.round_num += 1

@@ -100,7 +100,7 @@ class UserSimulator:
         user_response['intent'] = self.state['intent']
         user_response['request_slots'] = copy.deepcopy(self.state['request_slots'])
         user_response['inform_slots'] = copy.deepcopy(self.state['inform_slots'])
-        # print("user: {}".format(user_response))
+        print("user: {}".format(user_response))
         return user_response
 
     def step(self, agent_action):
@@ -279,24 +279,25 @@ class UserSimulator:
         #     self.success = NO_VALUE
         
         if agent_inform_key in self.state['request_slots'].keys():
-            self.success = NO_VALUE
+            if len(agent_inform_value) == 0:
+                print("inform user request: {} with empty value".format(agent_inform_key))
         elif agent_inform_key in self.state['history_slots'].keys():
             self.success = NO_VALUE
         else:
-            if (isinstance(agent_inform_value), list):
+            if isinstance(agent_inform_value, list):
                 if len(agent_inform_value) > 0:
                     self.empty_count -= 1
                     self.success = GOOD_INFORM
                 else:
                     self.empty_count += 1
                     self.success = UNSUITABLE
-        # if agent_inform_key in self.state['request_slots'].keys():
-        #     print("agent inform request slot")
+        
+
          # Zero case: If value that agent inform is no match available then random remove 1 slot from inform list
         if agent_inform_value == 'no match available':
-            
+            ### warning user and ask them to change value
             #random choose slot to remove
-            slots_lists = [key for key, value in self.state['history_slots'].items() if 'anything' not in value]
+            slots_lists = [key for key, value in self.state['history_slots'].items() if ('anything' not in value and key != self.default_key)]
             if len(slots_lists) > 0: 
                 slot_to_remove = random.choice(slots_lists)
                 self.state['intent'] = 'inform'
@@ -385,7 +386,7 @@ class UserSimulator:
 
         if agent_informs[self.default_key] == 'no match available':
             self.constraint_check = FAIL
-            history_slots_list = [key for key, value in self.state['history_slots'].items() if 'anything' not in value]
+            history_slots_list = [key for key, value in self.state['history_slots'].items() if ('anything' not in value and key != self.default_key)]
             # print(history_slots_list)
             history_slots_list = [item for item in history_slots_list if item != 'activity']
             # print(history_slots_list)
@@ -422,11 +423,13 @@ class UserSimulator:
         ##### IMPORTANT: if everythings is ok, then remove request slot to help the agent success
         
         if self.state['intent'] == 'thanks':
-            for key in self.state['request_slots'].keys():
-                self.state['rest_slots'].pop(key)
-                self.goal['request_slots'].pop(key)
+            for key in self.goal['request_slots'].keys():
+                self.state['rest_slots'].pop(key, None)
+                # self.goal['request_slots'].pop(key)
                 
-                # print("success, remove slot {} from rest and request".format(key))
+                print("success, remove slot {} from rest and request".format(key))
+            self.goal['request_slots'].clear()
+            
             self.state['request_slots'].clear()
             
         # return success
@@ -448,7 +451,7 @@ class UserSimulator:
         if not self.state['rest_slots']:
             assert not self.state['request_slots']
         if self.state['rest_slots']:
-            # print("rest_slots: {}".format(self.state['rest_slots']))
+            print("rest_slots: {}".format(self.state['rest_slots']))
             self.success = FAIL
             return
         # print("constraint_check: {0}".format(self.constraint_check))
