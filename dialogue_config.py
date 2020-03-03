@@ -70,7 +70,7 @@ NO_OUTCOME = 0
 SUCCESS = 1
 UNSUITABLE = -2
 NO_VALUE = -3
-
+GOOD_INFORM = 2
 # All possible intents (for one-hot conversion in ST.get_state())
 all_intents = ['inform', 'request', 'done', 'match_found', 'thanks', 'reject']
 

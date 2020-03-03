@@ -50,13 +50,18 @@ class User:
 
             informs_correct = True
             if len(chunks[1]) > 0:
-                informs_items_list = chunks[1].split(', ')
+                # print(chunks[1])
+                informs_items_list = chunks[1].split('**')
+                # print(informs_items_list)
+
                 for inf in informs_items_list:
-                    inf = inf.split(': ')
+                    # print(inf)
+                    inf = inf.split(':: ')
+                    # print(inf)
                     if inf[0] not in all_slots:
                         informs_correct = False
                         break
-                    response['inform_slots'][inf[0]] = inf[1]
+                    response['inform_slots'][inf[0]] = inf[1].split('||')
 
             requests_correct = True
             if len(chunks[2]) > 0:
@@ -66,10 +71,11 @@ class User:
                         requests_correct = False
                         break
                     response['request_slots'][req] = 'UNK'
-
+            
             if intent_correct and informs_correct and requests_correct:
                 break
 
+        
         return response
 
     def _return_success(self):

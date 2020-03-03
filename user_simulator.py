@@ -1,4 +1,4 @@
-from dialogue_config import usersim_default_key, FAIL,UNSUITABLE, NO_OUTCOME, SUCCESS, NO_VALUE, usersim_required_init_inform_keys, \
+from dialogue_config import usersim_default_key, FAIL,UNSUITABLE, NO_OUTCOME, SUCCESS, NO_VALUE, GOOD_INFORM, usersim_required_init_inform_keys, \
     no_query_keys
 from utils import reward_function
 import random, copy
@@ -100,7 +100,7 @@ class UserSimulator:
         user_response['intent'] = self.state['intent']
         user_response['request_slots'] = copy.deepcopy(self.state['request_slots'])
         user_response['inform_slots'] = copy.deepcopy(self.state['inform_slots'])
-        print("user: {}".format(user_response))
+        # print("user: {}".format(user_response))
         return user_response
 
     def step(self, agent_action):
@@ -272,13 +272,26 @@ class UserSimulator:
         agent_inform_value = agent_action['inform_slots'][agent_inform_key]
 
         assert agent_inform_key != self.default_key
-        if agent_inform_key in self.state['history_slots'].keys():
-            self.success = UNSUITABLE
-        if (isinstance(agent_inform_value, list) and len(agent_inform_value) == 0) or agent_inform_key in self.state['request_slots'].keys():
-            self.empty_count += 1
-            self.success = NO_VALUE
+        # if agent_inform_key in self.state['history_slots'].keys():
+        #     self.success = UNSUITABLE
+        # if (isinstance(agent_inform_value, list) and len(agent_inform_value) == 0) or agent_inform_key in self.state['request_slots'].keys():
+        #     self.empty_count += 1
+        #     self.success = NO_VALUE
+        
         if agent_inform_key in self.state['request_slots'].keys():
-            print("agent inform request slot")
+            self.success = NO_VALUE
+        elif agent_inform_key in self.state['history_slots'].keys():
+            self.success = NO_VALUE
+        else:
+            if (isinstance(agent_inform_value), list):
+                if len(agent_inform_value) > 0:
+                    self.empty_count -= 1
+                    self.success = GOOD_INFORM
+                else:
+                    self.empty_count += 1
+                    self.success = UNSUITABLE
+        # if agent_inform_key in self.state['request_slots'].keys():
+        #     print("agent inform request slot")
          # Zero case: If value that agent inform is no match available then random remove 1 slot from inform list
         if agent_inform_value == 'no match available':
             
@@ -413,7 +426,7 @@ class UserSimulator:
                 self.state['rest_slots'].pop(key)
                 self.goal['request_slots'].pop(key)
                 
-                print("success, remove slot {} from rest and request".format(key))
+                # print("success, remove slot {} from rest and request".format(key))
             self.state['request_slots'].clear()
             
         # return success
@@ -435,7 +448,7 @@ class UserSimulator:
         if not self.state['rest_slots']:
             assert not self.state['request_slots']
         if self.state['rest_slots']:
-            print("rest_slots: {}".format(self.state['rest_slots']))
+            # print("rest_slots: {}".format(self.state['rest_slots']))
             self.success = FAIL
             return
         # print("constraint_check: {0}".format(self.constraint_check))

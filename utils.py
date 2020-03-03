@@ -1,4 +1,4 @@
-from dialogue_config import FAIL, SUCCESS, UNSUITABLE, NO_VALUE
+from dialogue_config import FAIL, SUCCESS, UNSUITABLE, NO_VALUE, GOOD_INFORM
 
 
 def convert_list_to_dict(lst):
@@ -53,4 +53,6 @@ def reward_function(success, max_round):
         reward += - max_round / 2
     elif success == NO_VALUE:
         reward += - max_round
+    elif success == GOOD_INFORM:
+        reward +=  max_round
     return reward
