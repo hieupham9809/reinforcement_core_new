@@ -92,7 +92,7 @@ class StateTracker:
 
         # Create bag of filled_in slots based on the current_slots
         current_slots_rep = np.zeros((self.num_slots,))
-        print("current inform: {}".format(self.current_informs))
+        # print("current inform: {}".format(self.current_informs))
         for key in self.current_informs:
             current_slots_rep[self.slots_dict[key]] = 1.0
 
@@ -177,7 +177,7 @@ class StateTracker:
         if agent_action['intent'] == 'inform':
             assert agent_action['inform_slots']
             # print("intent: inform, current inform_slots: {}".format(self.current_informs))
-            print("current request slot: {}".format(self.current_request_slots))
+            # print("current request slot: {}".format(self.current_request_slots))
 
             inform_slots = self.db_helper.fill_inform_slot(agent_action['inform_slots'], self.current_informs)
             agent_action['inform_slots'] = inform_slots
@@ -206,13 +206,13 @@ class StateTracker:
                 #     key, data = list(db_results.items())[index]
                 #     index += 1
                 db_results_no_empty = {}
-                print("current request slot: {}".format(self.current_request_slots))
                 if self.current_request_slots[0] != usersim_default_key:
                     for key, data in db_results.items():
                         if isinstance(data[self.current_request_slots[0]], list) and len(data[self.current_request_slots[0]]) > 0:
                             db_results_no_empty[key] = copy.deepcopy(data)
                 if db_results_no_empty:
                     key, data = list(db_results_no_empty.items())[0]
+                    # print("MATCH FOUND: filtered only not empty data ")
                 else:
                     key, data = list(db_results.items())[0]
                 # key, data = list(db_results.items())[0]

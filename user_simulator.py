@@ -100,7 +100,7 @@ class UserSimulator:
         user_response['intent'] = self.state['intent']
         user_response['request_slots'] = copy.deepcopy(self.state['request_slots'])
         user_response['inform_slots'] = copy.deepcopy(self.state['inform_slots'])
-        print("user: {}".format(user_response))
+        # print("user: {}".format(user_response))
         return user_response
 
     def step(self, agent_action):
@@ -309,7 +309,7 @@ class UserSimulator:
                 # print(self.goal['inform_slots'])
                 # print(self.state['history_slots'])
                 # print(self.state['rest_slots'])
-                # return success
+                return
 
         # Add all informs (by agent too) to hist slots
         self.state['history_slots'][agent_inform_key] = agent_inform_value
@@ -427,7 +427,7 @@ class UserSimulator:
                 self.state['rest_slots'].pop(key, None)
                 # self.goal['request_slots'].pop(key)
                 
-                print("success, remove slot {} from rest and request".format(key))
+                # print("success, remove slot {} from rest and request".format(key))
             self.goal['request_slots'].clear()
             
             self.state['request_slots'].clear()
@@ -451,7 +451,7 @@ class UserSimulator:
         if not self.state['rest_slots']:
             assert not self.state['request_slots']
         if self.state['rest_slots']:
-            print("rest_slots: {}".format(self.state['rest_slots']))
+            # print("rest_slots: {}".format(self.state['rest_slots']))
             self.success = FAIL
             return
         # print("constraint_check: {0}".format(self.constraint_check))

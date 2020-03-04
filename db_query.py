@@ -58,8 +58,11 @@ class DBQuery:
         filled_inform = {}
         if db_results_no_empty:
             values_dict = self._count_slot_values(key, db_results_no_empty)
+            # printprint("INFORM: filtered out, values_dict: {}".format(values_dict))
         else:
             values_dict = self._count_slot_values(key, db_results)
+            # print("INFORM: can not filtered out, values_dict: {}".format(values_dict))
+
         if key == usersim_default_key:
             filled_inform[key] = list(db_results)[0]
         elif values_dict:
