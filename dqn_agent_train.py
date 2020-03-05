@@ -14,7 +14,7 @@ import re
 class DQNAgent:
     """The DQN agent that interacts with the user."""
 
-    def __init__(self, state_size, constants):
+    def __init__(self, state_size, constants,index):
         """
         The constructor of DQNAgent.
 
@@ -32,7 +32,7 @@ class DQNAgent:
         self.max_memory_size = self.C['max_mem_size']
         self.eps = self.C['epsilon_init']
         self.vanilla = self.C['vanilla']
-        self.lr = self.C['learning_rate']
+        self.lr = self.C['learning_rate'][index]
         self.gamma = self.C['gamma']
         self.batch_size = self.C['batch_size']
         self.hidden_size = self.C['dqn_hidden_size']
@@ -56,12 +56,18 @@ class DQNAgent:
 
         self.reset()
 
+    def set_lr(new_lr):
+        self.lr = new_lr
+
     def _build_model(self):
         """Builds and returns model/graph of neural network."""
 
         model = Sequential()
         model.add(Dense(self.hidden_size, input_dim=self.state_size, activation='relu'))
         model.add(Dense(49, input_dim=self.hidden_size, activation='relu'))
+        # model.add(Dense(self.hidden_size, input_dim=self.state_size, activation='relu'))
+        # model.add(Dense(self.hidden_size, input_dim=self.state_size, activation='relu'))
+        # model.add(Dense(self.hidden_size, input_dim=self.state_size, activation='relu'))
         model.add(Dense(self.num_actions, activation='linear'))
         model.compile(loss='mse', optimizer=Adam(lr=self.lr))
         return model
@@ -91,6 +97,7 @@ class DQNAgent:
         """
 
         if self.eps > random.random():
+            # print("random action")
             index = random.randint(0, self.num_actions - 1)
             action = self._map_index_to_action(index)
             return index, action

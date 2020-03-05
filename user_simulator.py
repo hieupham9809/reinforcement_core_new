@@ -139,8 +139,8 @@ class UserSimulator:
         done = False
         self.success = NO_OUTCOME
         # if user intent is thanks and agent not reply with done intent, then punish it
-        if self.state['intent'] == 'thanks' and agent_action['intent'] != 'done':
-            self.success = UNSUITABLE
+        # if self.state['intent'] == 'thanks' and agent_action['intent'] != 'done':
+        #     self.success = UNSUITABLE
         # First check round num, if equal to max then fail
         if agent_action['round'] == self.max_round:
             # print("max round reached")
