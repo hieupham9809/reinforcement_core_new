@@ -54,5 +54,5 @@ def reward_function(success, max_round):
     elif success == NO_VALUE:
         reward += - max_round
     elif success == GOOD_INFORM:
-        reward +=  max_round
+        reward +=  max_round / 10
     return reward

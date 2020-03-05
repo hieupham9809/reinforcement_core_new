@@ -29,6 +29,7 @@ class UserSimulator:
         self.database = database
         # ---------
         self.empty_count = 0
+        self.non_empty_count = 0
     def reset(self):
         """
         Resets the user sim. by emptying the state and returning the initial action.
@@ -58,8 +59,10 @@ class UserSimulator:
         return self._return_init_action()
     def reset_empty_count(self):
         total = self.empty_count
+        non_empty = self.non_empty_count
         self.empty_count = 0
-        return total
+        self.non_empty_count = 0
+        return total, non_empty
     def _return_init_action(self):
         """
         Returns the initial action of the episode.
@@ -286,7 +289,7 @@ class UserSimulator:
         else:
             if isinstance(agent_inform_value, list):
                 if len(agent_inform_value) > 0:
-                    self.empty_count -= 1
+                    self.non_empty_count += 1
                     self.success = GOOD_INFORM
                 else:
                     self.empty_count += 1
@@ -451,7 +454,7 @@ class UserSimulator:
         if not self.state['rest_slots']:
             assert not self.state['request_slots']
         if self.state['rest_slots']:
-            # print("rest_slots: {}".format(self.state['rest_slots']))
+            # print("Fail: rest_slots: {}".format(self.state['rest_slots']))
             self.success = FAIL
             return
         # print("constraint_check: {0}".format(self.constraint_check))

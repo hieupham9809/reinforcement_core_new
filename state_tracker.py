@@ -86,8 +86,11 @@ class StateTracker:
             user_inform_slots_rep[self.slots_dict[key]] = 1.0
 
         # Create bag of request slots representation to represent the current user action
+        # EDIT: user request slots should maintain through out the episode
         user_request_slots_rep = np.zeros((self.num_slots,))
-        for key in user_action['request_slots'].keys():
+        # for key in user_action['request_slots'].keys():
+        #     user_request_slots_rep[self.slots_dict[key]] = 1.0
+        for key in self.current_request_slots:
             user_request_slots_rep[self.slots_dict[key]] = 1.0
 
         # Create bag of filled_in slots based on the current_slots

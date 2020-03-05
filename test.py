@@ -91,7 +91,7 @@ def test_run():
 
             # User takes action given agent action
             user_action, reward, done, success = user.step(agent_action)
-            print("user: {}".format(str(user_action)))
+            print("user: {0}, reward: {1}".format(str(user_action), reward))
 
             ep_reward += reward
             if not done:
